@@ -10,7 +10,7 @@ function FAQPage({ navigate, tweaks = {}, lang = 'EN' }) {
       { q: 'Am I able to change or cancel my order?', a: 'You may change or cancel your order within 24 hours of placing it by contacting our team. After this window, orders enter production and cannot be modified or cancelled.' },
       { q: 'My print arrived damaged. What should I do?', a: 'If your print arrives damaged, contact us within 48 hours with photographs. We will produce and send a replacement at no additional cost to you.' },
       { q: 'Do you offer expedited shipping?', a: 'Yes, express delivery within Greater Cairo takes 2–3 business days. Contact us via WhatsApp to arrange express delivery to other locations.' },
-      { q: 'What forms of payment do you accept?', a: 'We accept all major credit cards (Visa, Mastercard), Egyptian bank cards, bank transfers for orders over 5,000 EGP, and deposit + cash on delivery for Greater Cairo orders.' },
+      { q: 'What forms of payment do you accept?', a: 'We accept all major credit and debit cards (Visa, Mastercard, American Express, Meeza), bank transfers for orders over 5,000 EGP, and deposit + cash on delivery for Greater Cairo orders.' },
       { q: 'Is my payment secure?', a: 'Absolutely. We use industry-standard SSL encryption to protect your information. All transactions are processed through secure payment gateways.' },
       { q: 'Is VAT included in the price?', a: 'Yes. All prices displayed on our site include VAT.' },
       { q: 'What paper do you use?', a: 'We print exclusively on Hahnemühle Fine Art papers — the same paper trusted by leading museums worldwide. Most commonly Hahnemühle Photo Rag 308 gsm, a 100% cotton rag with a beautiful matte finish.' },

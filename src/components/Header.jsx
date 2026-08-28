@@ -1,6 +1,16 @@
 
 function Header({ navigate, cartCount, onCartOpen, lang, setLang, currency = 'EGP', setCurrency }) {
   const [scrolled, setScrolled] = React.useState(false);
+  const [curOpen, setCurOpen] = React.useState(false);
+  const curRef = React.useRef(null);
+  React.useEffect(() => {
+    if (!curOpen) return;
+    const close = (e) => { if (curRef.current && !curRef.current.contains(e.target)) setCurOpen(false); };
+    const esc = (e) => { if (e.key === 'Escape') setCurOpen(false); };
+    document.addEventListener('mousedown', close);
+    document.addEventListener('keydown', esc);
+    return () => { document.removeEventListener('mousedown', close); document.removeEventListener('keydown', esc); };
+  }, [curOpen]);
   const [visible, setVisible] = React.useState(true);
   const [openDropdown, setOpenDropdown] = React.useState(null);
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -158,21 +168,59 @@ function Header({ navigate, cartCount, onCartOpen, lang, setLang, currency = 'EG
 
             {/* Actions */}
             <div style={{ position: 'absolute', top: '20px', insetInlineEnd: 0, display: 'flex', alignItems: 'center', gap: '18px' }}>
-              {/* Currency toggle — indicative USD/EUR alongside EGP */}
+              {/* Currency selector — indicative USD/EUR alongside EGP */}
               {setCurrency && (
-                <button
-                  onClick={() => { const order = window.CURRENCY.order; setCurrency(order[(order.indexOf(currency) + 1) % order.length]); }}
-                  title={isAr ? 'أسعار تقريبية — التحصيل الفعلي بالجنيه المصري' : 'Indicative pricing — you are charged in EGP'}
-                  style={{
-                    background: 'none', border: '1px solid rgba(240,234,216,0.18)', cursor: 'pointer',
-                    fontFamily: "'Jost', sans-serif", fontSize: '10.5px',
-                    letterSpacing: '0.1em', color: 'rgba(240,234,216,0.6)',
-                    padding: '4px 9px', borderRadius: '2px', transition: 'color 0.2s, border-color 0.2s',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.color = '#f0ead8'; e.currentTarget.style.borderColor = 'rgba(196,163,85,0.5)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = 'rgba(240,234,216,0.6)'; e.currentTarget.style.borderColor = 'rgba(240,234,216,0.18)'; }}>
-                  {currency}
-                </button>
+                <div ref={curRef} style={{ position: 'relative' }}>
+                  <button
+                    onClick={() => setCurOpen(o => !o)}
+                    aria-haspopup="listbox" aria-expanded={curOpen}
+                    title={isAr ? 'أسعار تقريبية — التحصيل الفعلي بالجنيه المصري' : 'Indicative pricing — you are charged in EGP'}
+                    style={{
+                      background: 'none', border: `1px solid ${curOpen ? 'rgba(196,163,85,0.5)' : 'rgba(240,234,216,0.18)'}`, cursor: 'pointer',
+                      fontFamily: "'Jost', sans-serif", fontSize: '10.5px', letterSpacing: '0.1em',
+                      color: curOpen ? '#f0ead8' : 'rgba(240,234,216,0.6)',
+                      padding: '4px 7px 4px 9px', borderRadius: '2px', transition: 'color 0.2s, border-color 0.2s',
+                      display: 'flex', alignItems: 'center', gap: '5px',
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.color = '#f0ead8'; e.currentTarget.style.borderColor = 'rgba(196,163,85,0.5)'; }}
+                    onMouseLeave={e => { if (!curOpen) { e.currentTarget.style.color = 'rgba(240,234,216,0.6)'; e.currentTarget.style.borderColor = 'rgba(240,234,216,0.18)'; } }}>
+                    {currency}
+                    <svg width="7" height="5" viewBox="0 0 8 5" fill="none" style={{ transform: curOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
+                      <path d="M1 1l3 3 3-3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                  {curOpen && (
+                    <div role="listbox" style={{
+                      position: 'absolute', top: 'calc(100% + 6px)', insetInlineEnd: 0, minWidth: '112px',
+                      background: 'rgba(22,20,17,0.97)', backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(240,234,216,0.12)', padding: '4px', zIndex: 60,
+                      boxShadow: '0 12px 32px rgba(0,0,0,0.45)',
+                    }}>
+                      {window.CURRENCY.order.map(code => {
+                        const on = code === currency;
+                        return (
+                          <button key={code} role="option" aria-selected={on}
+                            onClick={() => { setCurrency(code); setCurOpen(false); }}
+                            style={{
+                              display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', width: '100%',
+                              background: on ? 'rgba(196,163,85,0.1)' : 'transparent', border: 'none', cursor: 'pointer',
+                              fontFamily: "'Jost', sans-serif", fontSize: '11px', letterSpacing: '0.06em',
+                              color: on ? '#c4a355' : 'rgba(240,234,216,0.65)', padding: '8px 10px', textAlign: 'start',
+                              transition: 'background 0.15s, color 0.15s',
+                            }}
+                            onMouseEnter={e => { if (!on) { e.currentTarget.style.background = 'rgba(240,234,216,0.05)'; e.currentTarget.style.color = '#f0ead8'; } }}
+                            onMouseLeave={e => { if (!on) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(240,234,216,0.65)'; } }}>
+                            <span>{code}</span>
+                            <span style={{ opacity: 0.5, fontSize: '10px' }}>{window.CURRENCY.symbols[code]}</span>
+                          </button>
+                        );
+                      })}
+                      <p style={{ fontFamily: "'Jost', sans-serif", fontSize: '9.5px', lineHeight: 1.5, color: 'rgba(240,234,216,0.3)', margin: '4px 6px 2px', borderTop: '1px solid rgba(240,234,216,0.08)', paddingTop: '7px' }}>
+                        {isAr ? 'أسعار تقريبية · التحصيل بالجنيه المصري' : 'Indicative · charged in EGP'}
+                      </p>
+                    </div>
+                  )}
+                </div>
               )}
 
               {/* Language toggle */}

@@ -16,7 +16,7 @@ function HomePage({ navigate, addToCart, tweaks = {}, lang = 'EN', currency = 'E
 
       {/* ── HERO ── */}
       <section className="hero" style={{ position: 'relative', height: '100svh', minHeight: '560px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', background: '#0f0d0a' }}>
-        {reducedMotion ? (
+        {reducedMotion || window.__STANDALONE_NO_VIDEO ? (
           <img
             src={(window.__resources&&window.__resources.heroCairo)||'src/assets/hero-cairo.jpg'}
             alt="Cairo, archival"

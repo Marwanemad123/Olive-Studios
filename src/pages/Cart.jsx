@@ -174,8 +174,11 @@ function CartPage({ navigate, cart = [], updateCartItem, removeFromCart, lang = 
               <button onClick={() => navigate('checkout')} style={{ background: gold, color: '#1b1916', border: 'none', cursor: 'pointer', padding: '16px', fontFamily: bodyFont, fontSize: '11px', letterSpacing: isAr ? 0 : '0.18em', textTransform: isAr ? 'none' : 'uppercase', fontWeight: 500 }}>
                 {isAr ? 'إتمام الشراء' : 'Proceed to Checkout'}
               </button>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', marginTop: '2px' }}>
+                {['Visa', 'Mastercard', 'Amex', 'Meeza'].map(b => <CardMark key={b} brand={b} />)}
+              </div>
               <p style={{ fontFamily: bodyFont, fontSize: '11px', color: 'rgba(240,234,216,0.35)', textAlign: 'center', margin: 0, lineHeight: 1.6 }}>
-                {isAr ? 'دفع آمن عبر Paymob وInstapay وفوري (مصر) أو Stripe (دوليًا).' : 'Secure payment via Paymob, Instapay & Fawry (Egypt) or Stripe (international).'}
+                {isAr ? 'دفع آمن بالبطاقات الائتمانية ومدى الدفع المحلية.' : 'Secure card payment · encrypted with 3-D Secure.'}
               </p>
             </div>
           </div>

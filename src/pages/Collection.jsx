@@ -53,8 +53,8 @@ function CollectionPage({ navigate, tweaks = {}, lang = 'EN', params = {}, curre
           </h1>
           <p style={{ fontFamily: isAr ? "'IBM Plex Sans Arabic', sans-serif" : "'Jost', sans-serif", fontSize: '14px', color: 'rgba(240,234,216,0.58)', maxWidth: '520px', lineHeight: 1.8, margin: 0, fontWeight: 300 }}>
             {isAr
-              ? '١٠ أعمال. ٥ مصورين مصريين. إصدارات ثابتة — حين تنتهي، لن تُعاد.'
-              : '10 works. 5 Egyptian photographers. Fixed editions — when they\'re gone, they\'re gone.'}
+              ? '٢٠ عملاً. ١٠ مصورين. إصدارات ثابتة — حين تنتهي، لن تُعاد.'
+              : '20 works. 10 photographers. Fixed editions — when they\'re gone, they\'re gone.'}
           </p>
         </FadeUp>
       </div>

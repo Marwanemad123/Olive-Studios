@@ -48,7 +48,7 @@ function ShippingPage({ navigate, tweaks = {}, lang = 'EN' }) {
         {
           title: 'Payment Options',
           paras: [
-            { strong: 'Credit/Debit Cards:', body: 'We accept Visa, Mastercard, and local Egyptian bank cards through our secure checkout.' },
+            { strong: 'Credit/Debit Cards:', body: 'We accept Visa, Mastercard, American Express, and Meeza cards through our secure checkout.' },
             { strong: 'Bank Transfer:', body: 'Available for orders over 5,000 EGP. Contact us for account details.' },
             { strong: 'Deposit + Cash on Delivery:', body: 'For orders in Greater Cairo, we offer a 50% deposit with the balance paid on delivery in cash or card.' },
           ]
